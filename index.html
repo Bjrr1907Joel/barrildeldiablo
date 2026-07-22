@@ -1,296 +1,479 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0b0b" />
-  <title>Pagos | El Barril del Diablo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <title>El Barril del Diablo | Pagos</title>
   <style>
     :root{
-      --bg:#080808;
+      --rojo:#e00017;
+      --rojo-oscuro:#75000a;
+      --dorado:#f5b62c;
+      --negro:#050505;
       --panel:#151515;
-      --red:#e00014;
-      --gold:#f3b52b;
-      --white:#ffffff;
-      --muted:#b8b8b8;
-      --purple:#6f168f;
-      --cyan:#04aeb7;
+      --gris:#252525;
+      --blanco:#ffffff;
+      --plin:#04bdc7;
+      --yape:#7b168f;
     }
+
     *{box-sizing:border-box}
+
     body{
       margin:0;
-      font-family:Arial, Helvetica, sans-serif;
+      font-family:Arial,Helvetica,sans-serif;
       background:
-        radial-gradient(circle at top, rgba(224,0,20,.16), transparent 30%),
-        linear-gradient(180deg,#050505,#111);
-      color:var(--white);
+        radial-gradient(circle at 50% 0%, rgba(224,0,23,.23), transparent 32%),
+        linear-gradient(180deg,#020202,#111);
+      color:#fff;
       min-height:100vh;
     }
-    .wrap{
+
+    .app{
       width:min(100%,520px);
       margin:auto;
-      padding:18px 14px 34px;
+      padding:12px;
     }
+
     .card{
-      border:1px solid rgba(224,0,20,.75);
-      border-radius:24px;
+      position:relative;
       overflow:hidden;
-      background:rgba(5,5,5,.96);
-      box-shadow:0 20px 70px rgba(0,0,0,.55);
+      background:#050505;
+      border:2px solid var(--rojo);
+      border-radius:28px;
+      box-shadow:0 20px 80px rgba(0,0,0,.65);
     }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(224,0,23,.12), transparent 20%),
+        radial-gradient(circle at 80% 30%, rgba(245,182,44,.06), transparent 18%);
+    }
+
     .hero{
-      padding:16px 16px 10px;
+      position:relative;
+      padding:12px 14px 0;
       text-align:center;
-      border-bottom:1px solid rgba(224,0,20,.45);
     }
-    .logo{
+
+    .hero img{
       width:100%;
-      max-height:235px;
+      max-height:260px;
       object-fit:contain;
-      border-radius:16px;
+      border-radius:18px;
+      display:block;
       background:#050505;
     }
-    .thanks{
-      margin:12px -16px 0;
-      padding:12px;
-      font-weight:800;
+
+    .gracias{
+      margin:8px -14px 0;
+      padding:12px 8px;
+      background:linear-gradient(90deg,#5f0007,#bd0011,#5f0007);
+      border-top:1px solid rgba(255,0,0,.55);
+      border-bottom:1px solid rgba(255,0,0,.55);
+      font-size:21px;
+      font-weight:900;
       letter-spacing:.5px;
-      background:linear-gradient(90deg,#65000a,#c50015,#65000a);
     }
-    .content{padding:18px}
+
+    .contenido{
+      position:relative;
+      z-index:1;
+      padding:18px 16px 20px;
+    }
+
     h1{
-      margin:0 0 14px;
-      font-size:28px;
       text-align:center;
-      letter-spacing:1px;
+      font-size:29px;
+      margin:0 0 14px;
+      letter-spacing:1.2px;
     }
-    .qrbox{
-      background:#fff;
-      border:4px solid var(--red);
-      border-radius:20px;
-      padding:10px;
+
+    .qr{
       width:min(100%,330px);
       margin:0 auto;
-      box-shadow:0 0 28px rgba(224,0,20,.28);
+      background:#fff;
+      border:4px solid var(--rojo);
+      border-radius:22px;
+      padding:9px;
+      box-shadow:0 0 25px rgba(224,0,23,.32);
     }
-    .qrbox img{
-      display:block;
+
+    .qr img{
       width:100%;
-      height:auto;
+      display:block;
       border-radius:8px;
     }
-    .owner{
+
+    .titular{
       text-align:center;
-      margin:12px 0 18px;
+      font-weight:800;
       font-size:17px;
+      margin:12px 0 16px;
     }
-    .owner strong{color:var(--gold)}
-    .paygrid{
+
+    .titular span{color:var(--dorado)}
+
+    .pagos{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:12px;
     }
-    button,a.action{
+
+    .pago{
+      position:relative;
       border:0;
-      border-radius:16px;
-      padding:15px 12px;
+      border-radius:18px;
       color:#fff;
-      font-weight:800;
-      font-size:16px;
+      min-height:116px;
+      padding:12px;
+      display:grid;
+      grid-template-columns:64px 1fr 18px;
+      align-items:center;
+      gap:10px;
       cursor:pointer;
+      text-align:left;
+      font-weight:800;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+      transition:.18s ease;
+    }
+
+    .pago:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .pago:active{transform:scale(.98)}
+
+    .pago.yape{background:linear-gradient(135deg,#47105d,#8c1ca8)}
+    .pago.plin{background:linear-gradient(135deg,#087d82,#08bdc7)}
+
+    .pago img{
+      width:64px;
+      height:64px;
+      object-fit:contain;
+      border-radius:15px;
+    }
+
+    .pago small{
+      display:block;
+      font-size:13px;
+      margin-bottom:2px;
+    }
+
+    .pago strong{
+      display:block;
+      font-size:24px;
+      line-height:1;
+    }
+
+    .pago .numero{
+      display:block;
+      margin-top:7px;
+      color:#ffd85e;
+      font-size:17px;
+      white-space:nowrap;
+    }
+
+    .arrow{font-size:30px;font-weight:300}
+
+    .acciones{
+      margin-top:12px;
+      background:linear-gradient(180deg,#222,#111);
+      border:1px solid #3a3a3a;
+      border-radius:17px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      overflow:hidden;
+    }
+
+    .accion{
+      min-height:112px;
+      color:#fff;
+      background:transparent;
+      border:0;
+      border-right:1px solid #3b3b3b;
+      padding:12px 8px;
       text-decoration:none;
       text-align:center;
+      font-weight:800;
+      cursor:pointer;
       display:flex;
       flex-direction:column;
       justify-content:center;
       align-items:center;
-      min-height:92px;
-      transition:transform .15s ease, filter .15s ease;
+      gap:7px;
     }
-    button:active,a.action:active{transform:scale(.98)}
-    .yape{background:linear-gradient(135deg,#421058,#8620a8)}
-    .plin{background:linear-gradient(135deg,#087f86,#08bdc7)}
-    .num{
-      display:block;
-      margin-top:6px;
-      color:#ffd85e;
-      font-size:18px;
-    }
-    .actions{
-      margin-top:12px;
-      display:grid;
-      gap:10px;
-    }
-    .secondary{
-      background:#222;
-      border:1px solid #3a3a3a;
-      min-height:58px;
-      flex-direction:row;
-      gap:10px;
-    }
-    .whatsapp{background:#128c45}
-    .notice{
+
+    .accion:last-child{border-right:0}
+    .accion img{width:42px;height:42px;object-fit:contain}
+    .accion .icon{font-size:38px;line-height:1}
+    .accion small{color:#c6c6c6;font-weight:400}
+
+    .contactos{
       margin-top:14px;
-      border:1px solid rgba(243,181,43,.8);
-      border-radius:15px;
+      border:1px solid #3a3a3a;
+      border-radius:17px;
+      padding:12px;
+      text-align:center;
+      background:#101010;
+    }
+
+    .contactos h2{
+      margin:0 0 8px;
+      color:#ff283c;
+      font-size:19px;
+    }
+
+    .linea-contactos{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+      font-weight:800;
+      font-size:17px;
+    }
+
+    .plin-txt{color:#4de7ee}
+    .yape-txt{color:#d274e4}
+
+    .alerta{
+      margin-top:14px;
+      border:1px solid var(--dorado);
+      border-radius:17px;
       padding:13px;
       text-align:center;
-      background:rgba(243,181,43,.08);
-      color:#f5f5f5;
       line-height:1.35;
+      background:linear-gradient(90deg,rgba(245,182,44,.05),rgba(245,182,44,.12),rgba(245,182,44,.05));
+      font-weight:700;
     }
-    .notice strong{color:var(--gold)}
-    .foot{
+
+    .alerta strong{
+      display:block;
+      color:var(--dorado);
+      font-size:20px;
+      margin-top:3px;
+    }
+
+    .cierre{
       text-align:center;
-      color:var(--muted);
-      font-size:12px;
+      font-family:Georgia,serif;
+      font-style:italic;
+      font-size:24px;
       margin-top:16px;
-      line-height:1.45;
     }
+
+    dialog{
+      width:min(92vw,410px);
+      border:1px solid var(--plin);
+      border-radius:20px;
+      padding:0;
+      color:#fff;
+      background:#101010;
+      box-shadow:0 22px 80px rgba(0,0,0,.7);
+    }
+
+    dialog::backdrop{background:rgba(0,0,0,.78)}
+
+    .modal{
+      padding:18px;
+      text-align:center;
+    }
+
+    .modal img{width:78px;margin-bottom:7px}
+    .modal h3{margin:0 0 8px;font-size:24px}
+    .modal p{color:#d0d0d0;margin:6px 0 14px}
+
+    .modal button,.modal a{
+      display:block;
+      width:100%;
+      margin-top:9px;
+      padding:14px;
+      border-radius:13px;
+      border:0;
+      text-decoration:none;
+      font-weight:800;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    .bbva{background:#0b4ea2;color:#fff}
+    .copiar{background:#292929;color:#fff}
+    .cerrar{background:#4a1116;color:#fff}
+
     #toast{
       position:fixed;
+      bottom:22px;
       left:50%;
-      bottom:24px;
-      transform:translateX(-50%) translateY(20px);
+      transform:translateX(-50%) translateY(25px);
+      opacity:0;
       background:#fff;
       color:#111;
       padding:12px 16px;
       border-radius:12px;
-      font-weight:700;
-      opacity:0;
-      pointer-events:none;
+      font-weight:800;
       transition:.25s;
       z-index:999;
-      width:max-content;
       max-width:90vw;
       text-align:center;
     }
+
     #toast.show{
       opacity:1;
       transform:translateX(-50%) translateY(0);
     }
-    @media(max-width:390px){
-      .paygrid{grid-template-columns:1fr}
-      h1{font-size:24px}
+
+    @media(max-width:430px){
+      .pagos{grid-template-columns:1fr}
+      .acciones{grid-template-columns:1fr}
+      .accion{min-height:80px;border-right:0;border-bottom:1px solid #3b3b3b}
+      .accion:last-child{border-bottom:0}
+      h1{font-size:25px}
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
+  <main class="app">
     <section class="card">
       <header class="hero">
-        <img class="logo" src="logo.png" alt="Logo El Barril del Diablo" />
-        <div class="thanks">GRACIAS POR TU COMPRA</div>
+        <img src="logo.png" alt="El Barril del Diablo">
+        <div class="gracias">GRACIAS POR TU COMPRA</div>
       </header>
 
-      <div class="content">
+      <div class="contenido">
         <h1>REALIZA TU PAGO</h1>
 
-        <div class="qrbox">
-          <img src="qr_pago.jpeg" alt="QR de pago de Corporación Vásquez" />
+        <div class="qr">
+          <img src="qr_pago.jpeg" alt="QR de pago de Corporación Vásquez">
         </div>
 
-        <div class="owner">
-          Titular: <strong>CORPORACIÓN VÁSQUEZ</strong>
-        </div>
+        <div class="titular">Titular: <span>CORPORACIÓN VÁSQUEZ</span></div>
 
-        <div class="paygrid">
-          <button class="yape" onclick="openWallet('yape','956589548')">
-            PAGAR CON YAPE
-            <span class="num">956 589 548</span>
+        <section class="pagos">
+          <button class="pago yape" onclick="abrirYape()">
+            <img src="yape.png" alt="Yape">
+            <span>
+              <small>PAGAR CON</small>
+              <strong>YAPE</strong>
+              <span class="numero">956 589 548</span>
+            </span>
+            <span class="arrow">›</span>
           </button>
 
-          <button class="plin" onclick="openWallet('plin','942180159')">
-            PAGAR CON PLIN
-            <span class="num">942 180 159</span>
+          <button class="pago plin" onclick="abrirModalPlin()">
+            <img src="plin.png" alt="Plin">
+            <span>
+              <small>PAGAR CON</small>
+              <strong>PLIN</strong>
+              <span class="numero">942 180 159</span>
+            </span>
+            <span class="arrow">›</span>
           </button>
-        </div>
+        </section>
 
-        <div class="actions">
-          <button class="secondary" onclick="chooseCopy()">📋 Copiar número de pago</button>
+        <section class="acciones">
+          <button class="accion" onclick="elegirNumero()">
+            <span class="icon">📋</span>
+            COPIAR NÚMERO
+            <small>Copia el número de tu elección</small>
+          </button>
 
-          <a class="action secondary whatsapp"
-             href="https://wa.me/51942180159?text=Hola%20El%20Barril%20del%20Diablo%2C%20adjunto%20mi%20comprobante%20de%20pago."
-             target="_blank" rel="noopener">
-             💬 Enviar comprobante por WhatsApp
+          <a class="accion" href="https://wa.me/51942180159?text=Hola%20El%20Barril%20del%20Diablo%2C%20adjunto%20mi%20comprobante%20de%20pago." target="_blank" rel="noopener">
+            <img src="whatsapp.png" alt="WhatsApp">
+            ENVIAR COMPROBANTE
+            <small>Por WhatsApp</small>
           </a>
 
-          <a class="action secondary" href="tel:+51942180159">
-            📞 Contactar al negocio
+          <a class="accion" href="tel:+51942180159">
+            <span class="icon">☎️</span>
+            CONTACTAR
+            <small>Habla con el negocio</small>
           </a>
-        </div>
+        </section>
 
-        <div class="notice">
+        <section class="contactos">
+          <h2>CONTACTOS</h2>
+          <div class="linea-contactos">
+            <span>942 180 159 <b class="plin-txt">(PLIN)</b></span>
+            <span>|</span>
+            <span>956 589 548 <b class="yape-txt">(YAPE)</b></span>
+          </div>
+        </section>
+
+        <div class="alerta">
           Antes de confirmar el pago, verifica que aparezca el nombre
-          <strong>CORPORACIÓN VÁSQUEZ</strong>.
+          <strong>CORPORACIÓN VÁSQUEZ</strong>
         </div>
 
-        <div class="foot">
-          El botón copia el número y luego intenta abrir la billetera instalada.
-          La apertura directa puede variar según el modelo del celular y la versión de la aplicación.
-        </div>
+        <div class="cierre">¡Gracias por preferirnos!</div>
       </div>
     </section>
   </main>
 
+  <dialog id="modalPlin">
+    <div class="modal">
+      <img src="plin.png" alt="Plin">
+      <h3>Pagar con Plin</h3>
+      <p>El número <b>942 180 159</b> se copiará antes de intentar abrir BBVA.</p>
+      <button class="bbva" onclick="abrirBBVA()">Abrir aplicación BBVA</button>
+      <button class="copiar" onclick="copiar('942180159','Número Plin copiado')">Copiar número Plin</button>
+      <button class="cerrar" onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </dialog>
+
   <div id="toast"></div>
 
   <script>
-    const numbers = {
-      yape: "956589548",
-      plin: "942180159"
+    const toast = (mensaje) => {
+      const t = document.getElementById('toast');
+      t.textContent = mensaje;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2300);
     };
 
-    function toast(message){
-      const el = document.getElementById("toast");
-      el.textContent = message;
-      el.classList.add("show");
-      setTimeout(() => el.classList.remove("show"), 2400);
-    }
-
-    async function copyText(text){
+    async function copiar(texto, mensaje){
       try{
-        await navigator.clipboard.writeText(text);
-        return true;
+        await navigator.clipboard.writeText(texto);
       }catch(e){
-        const area = document.createElement("textarea");
-        area.value = text;
+        const area = document.createElement('textarea');
+        area.value = texto;
         document.body.appendChild(area);
         area.select();
-        document.execCommand("copy");
+        document.execCommand('copy');
         area.remove();
-        return true;
       }
+      toast(mensaje);
     }
 
-    async function openWallet(wallet, number){
-      await copyText(number);
-      toast("Número copiado. Intentando abrir " + wallet.toUpperCase() + "…");
-
-      const scheme = wallet === "yape" ? "yape://" : "plin://";
-      setTimeout(() => {
-        window.location.href = scheme;
-      }, 350);
-
-      setTimeout(() => {
-        toast("Número copiado: " + number + ". Ábrelo manualmente si la app no se abrió.");
-      }, 1800);
+    function abrirYape(){
+      copiar('956589548','Número Yape copiado');
+      setTimeout(() => location.href='yape://', 350);
     }
 
-    function chooseCopy(){
-      const option = prompt(
-        "Escribe 1 para copiar Yape (956 589 548) o 2 para copiar Plin (942 180 159):"
-      );
+    function abrirModalPlin(){
+      document.getElementById('modalPlin').showModal();
+    }
 
-      if(option === "1"){
-        copyText(numbers.yape);
-        toast("Número Yape copiado: 956 589 548");
-      }else if(option === "2"){
-        copyText(numbers.plin);
-        toast("Número Plin copiado: 942 180 159");
-      }else if(option !== null){
-        toast("Opción no válida");
-      }
+    function cerrarModal(){
+      document.getElementById('modalPlin').close();
+    }
+
+    function abrirBBVA(){
+      copiar('942180159','Número Plin copiado. Intentando abrir BBVA...');
+      /*
+        BBVA no garantiza públicamente un enlace universal estable para abrir
+        directamente la app. Se intenta el esquema habitual y, si no funciona,
+        el número queda copiado para que el cliente abra BBVA manualmente.
+      */
+      setTimeout(() => location.href='bbva://', 400);
+    }
+
+    function elegirNumero(){
+      const op = prompt('Escribe 1 para Yape o 2 para Plin');
+      if(op === '1') copiar('956589548','Número Yape copiado');
+      else if(op === '2') copiar('942180159','Número Plin copiado');
+      else if(op !== null) toast('Opción no válida');
     }
   </script>
 </body>
