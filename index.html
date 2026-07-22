@@ -1,480 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080808">
-  <title>El Barril del Diablo | Pagos</title>
-  <style>
-    :root{
-      --rojo:#e00017;
-      --rojo-oscuro:#75000a;
-      --dorado:#f5b62c;
-      --negro:#050505;
-      --panel:#151515;
-      --gris:#252525;
-      --blanco:#ffffff;
-      --plin:#04bdc7;
-      --yape:#7b168f;
-    }
-
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(224,0,23,.23), transparent 32%),
-        linear-gradient(180deg,#020202,#111);
-      color:#fff;
-      min-height:100vh;
-    }
-
-    .app{
-      width:min(100%,520px);
-      margin:auto;
-      padding:12px;
-    }
-
-    .card{
-      position:relative;
-      overflow:hidden;
-      background:#050505;
-      border:2px solid var(--rojo);
-      border-radius:28px;
-      box-shadow:0 20px 80px rgba(0,0,0,.65);
-    }
-
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 20% 18%, rgba(224,0,23,.12), transparent 20%),
-        radial-gradient(circle at 80% 30%, rgba(245,182,44,.06), transparent 18%);
-    }
-
-    .hero{
-      position:relative;
-      padding:12px 14px 0;
-      text-align:center;
-    }
-
-    .hero img{
-      width:100%;
-      max-height:260px;
-      object-fit:contain;
-      border-radius:18px;
-      display:block;
-      background:#050505;
-    }
-
-    .gracias{
-      margin:8px -14px 0;
-      padding:12px 8px;
-      background:linear-gradient(90deg,#5f0007,#bd0011,#5f0007);
-      border-top:1px solid rgba(255,0,0,.55);
-      border-bottom:1px solid rgba(255,0,0,.55);
-      font-size:21px;
-      font-weight:900;
-      letter-spacing:.5px;
-    }
-
-    .contenido{
-      position:relative;
-      z-index:1;
-      padding:18px 16px 20px;
-    }
-
-    h1{
-      text-align:center;
-      font-size:29px;
-      margin:0 0 14px;
-      letter-spacing:1.2px;
-    }
-
-    .qr{
-      width:min(100%,330px);
-      margin:0 auto;
-      background:#fff;
-      border:4px solid var(--rojo);
-      border-radius:22px;
-      padding:9px;
-      box-shadow:0 0 25px rgba(224,0,23,.32);
-    }
-
-    .qr img{
-      width:100%;
-      display:block;
-      border-radius:8px;
-    }
-
-    .titular{
-      text-align:center;
-      font-weight:800;
-      font-size:17px;
-      margin:12px 0 16px;
-    }
-
-    .titular span{color:var(--dorado)}
-
-    .pagos{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-
-    .pago{
-      position:relative;
-      border:0;
-      border-radius:18px;
-      color:#fff;
-      min-height:116px;
-      padding:12px;
-      display:grid;
-      grid-template-columns:64px 1fr 18px;
-      align-items:center;
-      gap:10px;
-      cursor:pointer;
-      text-align:left;
-      font-weight:800;
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
-      transition:.18s ease;
-    }
-
-    .pago:hover{filter:brightness(1.08);transform:translateY(-1px)}
-    .pago:active{transform:scale(.98)}
-
-    .pago.yape{background:linear-gradient(135deg,#47105d,#8c1ca8)}
-    .pago.plin{background:linear-gradient(135deg,#087d82,#08bdc7)}
-
-    .pago img{
-      width:64px;
-      height:64px;
-      object-fit:contain;
-      border-radius:15px;
-    }
-
-    .pago small{
-      display:block;
-      font-size:13px;
-      margin-bottom:2px;
-    }
-
-    .pago strong{
-      display:block;
-      font-size:24px;
-      line-height:1;
-    }
-
-    .pago .numero{
-      display:block;
-      margin-top:7px;
-      color:#ffd85e;
-      font-size:17px;
-      white-space:nowrap;
-    }
-
-    .arrow{font-size:30px;font-weight:300}
-
-    .acciones{
-      margin-top:12px;
-      background:linear-gradient(180deg,#222,#111);
-      border:1px solid #3a3a3a;
-      border-radius:17px;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      overflow:hidden;
-    }
-
-    .accion{
-      min-height:112px;
-      color:#fff;
-      background:transparent;
-      border:0;
-      border-right:1px solid #3b3b3b;
-      padding:12px 8px;
-      text-decoration:none;
-      text-align:center;
-      font-weight:800;
-      cursor:pointer;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      gap:7px;
-    }
-
-    .accion:last-child{border-right:0}
-    .accion img{width:42px;height:42px;object-fit:contain}
-    .accion .icon{font-size:38px;line-height:1}
-    .accion small{color:#c6c6c6;font-weight:400}
-
-    .contactos{
-      margin-top:14px;
-      border:1px solid #3a3a3a;
-      border-radius:17px;
-      padding:12px;
-      text-align:center;
-      background:#101010;
-    }
-
-    .contactos h2{
-      margin:0 0 8px;
-      color:#ff283c;
-      font-size:19px;
-    }
-
-    .linea-contactos{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:12px;
-      font-weight:800;
-      font-size:17px;
-    }
-
-    .plin-txt{color:#4de7ee}
-    .yape-txt{color:#d274e4}
-
-    .alerta{
-      margin-top:14px;
-      border:1px solid var(--dorado);
-      border-radius:17px;
-      padding:13px;
-      text-align:center;
-      line-height:1.35;
-      background:linear-gradient(90deg,rgba(245,182,44,.05),rgba(245,182,44,.12),rgba(245,182,44,.05));
-      font-weight:700;
-    }
-
-    .alerta strong{
-      display:block;
-      color:var(--dorado);
-      font-size:20px;
-      margin-top:3px;
-    }
-
-    .cierre{
-      text-align:center;
-      font-family:Georgia,serif;
-      font-style:italic;
-      font-size:24px;
-      margin-top:16px;
-    }
-
-    dialog{
-      width:min(92vw,410px);
-      border:1px solid var(--plin);
-      border-radius:20px;
-      padding:0;
-      color:#fff;
-      background:#101010;
-      box-shadow:0 22px 80px rgba(0,0,0,.7);
-    }
-
-    dialog::backdrop{background:rgba(0,0,0,.78)}
-
-    .modal{
-      padding:18px;
-      text-align:center;
-    }
-
-    .modal img{width:78px;margin-bottom:7px}
-    .modal h3{margin:0 0 8px;font-size:24px}
-    .modal p{color:#d0d0d0;margin:6px 0 14px}
-
-    .modal button,.modal a{
-      display:block;
-      width:100%;
-      margin-top:9px;
-      padding:14px;
-      border-radius:13px;
-      border:0;
-      text-decoration:none;
-      font-weight:800;
-      font-size:16px;
-      cursor:pointer;
-    }
-
-    .bbva{background:#0b4ea2;color:#fff}
-    .copiar{background:#292929;color:#fff}
-    .cerrar{background:#4a1116;color:#fff}
-
-    #toast{
-      position:fixed;
-      bottom:22px;
-      left:50%;
-      transform:translateX(-50%) translateY(25px);
-      opacity:0;
-      background:#fff;
-      color:#111;
-      padding:12px 16px;
-      border-radius:12px;
-      font-weight:800;
-      transition:.25s;
-      z-index:999;
-      max-width:90vw;
-      text-align:center;
-    }
-
-    #toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(0);
-    }
-
-    @media(max-width:430px){
-      .pagos{grid-template-columns:1fr}
-      .acciones{grid-template-columns:1fr}
-      .accion{min-height:80px;border-right:0;border-bottom:1px solid #3b3b3b}
-      .accion:last-child{border-bottom:0}
-      h1{font-size:25px}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>El Barril del Diablo</title>
+<style>
+:root{--red:#e00017;--gold:#f5b62c;--panel:#151515}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,rgba(224,0,23,.22),transparent 32%),linear-gradient(#020202,#111);color:#fff;font-family:Arial,sans-serif}
+.app{width:min(100%,540px);margin:auto;padding:12px}.box{background:#050505;border:2px solid var(--red);border-radius:28px;overflow:hidden;box-shadow:0 25px 80px #000}
+.hero{padding:14px 14px 0;text-align:center}.hero img{width:100%;max-height:260px;object-fit:contain;border-radius:18px}.bar{margin:8px -14px 0;padding:12px;background:linear-gradient(90deg,#5c0008,#c50015,#5c0008);font-size:21px;font-weight:900}
+.content{padding:18px 16px 22px}h1{text-align:center;margin:0 0 14px;font-size:28px}.qr{width:min(100%,330px);margin:auto;background:white;border:4px solid var(--red);padding:9px;border-radius:22px}.qr img{width:100%;display:block}
+.owner{text-align:center;margin:12px 0 16px;font-weight:800}.owner b{color:var(--gold)}.payments{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pay{border:0;border-radius:18px;color:white;min-height:112px;padding:12px;display:grid;grid-template-columns:64px 1fr 18px;align-items:center;gap:10px;text-align:left;font-weight:800;cursor:pointer}
+.pay img{width:64px;height:64px;object-fit:contain;border-radius:15px}.pay small{display:block}.pay strong{font-size:24px;display:block}.num{color:#ffdc5b;display:block;margin-top:6px;font-size:17px}.y{background:linear-gradient(135deg,#451057,#8d1da8)}.p{background:linear-gradient(135deg,#08777d,#04bdc7)}.arrow{font-size:30px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.quick a,.quick button{min-height:105px;border-radius:16px;border:1px solid #3b3b3b;background:linear-gradient(#222,#111);color:white;text-decoration:none;text-align:center;padding:10px 8px;font-weight:900;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer}.quick .icon{font-size:35px}.quick small{color:var(--gold)}
+.menu{width:100%;margin-top:12px;border:1px solid #4b4b4b;background:#101010;color:white;border-radius:16px;padding:14px;font-size:17px;font-weight:900;cursor:pointer}
+.contacts{margin-top:13px;border:1px solid #3b3b3b;border-radius:16px;padding:12px;text-align:center;background:#101010}.contacts h2{color:#ff3145;margin:0 0 8px;font-size:18px}.nums{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:18px;font-weight:900}
+.notice{margin-top:13px;border:1px solid var(--gold);border-radius:16px;padding:13px;text-align:center;background:rgba(245,182,44,.08)}.notice b{display:block;color:var(--gold);font-size:20px}.thanks{text-align:center;font:italic 25px Georgia;margin-top:16px}
+dialog{width:min(94vw,480px);max-height:88vh;border:1px solid var(--gold);border-radius:22px;padding:0;color:white;background:#101010}dialog::backdrop{background:rgba(0,0,0,.8)}.head{position:sticky;top:0;background:#101010;padding:16px;border-bottom:1px solid #3b3b3b;display:flex;justify-content:space-between;align-items:center;z-index:2}.head h3{margin:0;color:var(--gold)}.close{border:0;background:#650912;color:white;width:38px;height:38px;border-radius:50%;font-size:22px;cursor:pointer}.body{padding:14px}
+.socials{display:grid;gap:10px}.socials a{padding:14px;border-radius:14px;text-decoration:none;color:white;font-weight:900;background:#1b1b1b;border:1px solid #3b3b3b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.drink{background:#191919;border:1px solid #3b3b3b;border-radius:15px;padding:9px;text-align:center}.drink img{width:100%;border-radius:12px}.drink strong{display:block;margin-top:8px;font-size:14px}
+.action{display:block;width:100%;margin-top:10px;padding:14px;border-radius:13px;border:0;color:white;font-weight:900;cursor:pointer}.bbva{background:#0b4ea2}.copy{background:#292929}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;background:white;color:#111;padding:12px 16px;border-radius:12px;font-weight:800;transition:.25s;z-index:999}#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:430px){.payments,.quick{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <main class="app">
-    <section class="card">
-      <header class="hero">
-        <img src="logo.png" alt="El Barril del Diablo">
-        <div class="gracias">GRACIAS POR TU COMPRA</div>
-      </header>
+<main class="app"><section class="box">
+<header class="hero"><img src="img/logo.png" alt="Logo"><div class="bar">GRACIAS POR TU COMPRA</div></header>
+<div class="content">
+<h1>REALIZA TU PAGO</h1>
+<div class="qr"><img src="img/qr_pago.jpeg" alt="QR de pago"></div>
+<div class="owner">Titular: <b>CORPORACIÓN VÁSQUEZ</b></div>
+<section class="payments">
+<button class="pay y" onclick="openYape()"><img src="img/yape.png"><span><small>PAGAR CON</small><strong>YAPE</strong><span class="num">956 589 548</span></span><span class="arrow">›</span></button>
+<button class="pay p" onclick="plinModal.showModal()"><img src="img/plin.png"><span><small>PAGAR CON</small><strong>PLIN</strong><span class="num">942 180 159</span></span><span class="arrow">›</span></button>
+</section>
+<section class="quick">
+<a href="https://wa.me/51942180159?text=Hola%20El%20Barril%20del%20Diablo%2C%20deseo%20realizar%20un%20pedido." target="_blank"><span class="icon">🛵</span>REALIZAR UN PEDIDO<small>Delivery</small></a>
+<a href="https://maps.app.goo.gl/vh8eJjNkHjBjdDRs6" target="_blank"><span class="icon">📍</span>CÓMO LLEGAR<small>Google Maps</small></a>
+<button onclick="socialModal.showModal()"><span class="icon">📱</span>REDES SOCIALES<small>Instagram · TikTok · Facebook</small></button>
+</section>
+<button class="menu" onclick="drinksModal.showModal()">🍸 TRAGOS DEL BARMAN DIABLO</button>
+<section class="contacts"><h2>CONTÁCTANOS</h2><div class="nums"><span>942 180 159</span><span>|</span><span>956 589 548</span></div></section>
+<div class="notice">Antes de confirmar el pago, verifica que aparezca el nombre<b>CORPORACIÓN VÁSQUEZ</b></div>
+<div class="thanks">¡Gracias por preferirnos!</div>
+</div></section></main>
 
-      <div class="contenido">
-        <h1>REALIZA TU PAGO</h1>
+<dialog id="socialModal"><div class="head"><h3>Síguenos en redes</h3><button class="close" onclick="socialModal.close()">×</button></div><div class="body socials">
+<a href="https://www.instagram.com/barrildel?igsh=MXVsODB1dWs5emJibA==" target="_blank">📸 Instagram</a>
+<a href="https://www.tiktok.com/@elbarrildeldiablo_?_r=1&_t=ZS-98Eck5xJgUi" target="_blank">🎵 TikTok</a>
+<a href="https://www.facebook.com/share/18w77YGYcs/" target="_blank">🔵 Facebook</a>
+</div></dialog>
 
-        <div class="qr">
-          <img src="qr_pago.jpeg" alt="QR de pago de Corporación Vásquez">
-        </div>
+<dialog id="drinksModal"><div class="head"><h3>🍸 Tragos del Barman Diablo</h3><button class="close" onclick="drinksModal.close()">×</button></div><div class="body"><div class="grid"><div class="drink"><img src="img/tragos/machu-picchu.svg"><strong>Machu Picchu</strong></div>
+<div class="drink"><img src="img/tragos/cuba-libre.svg"><strong>Cuba Libre</strong></div>
+<div class="drink"><img src="img/tragos/blue-hawaiian.svg"><strong>Blue Hawaiian</strong></div>
+<div class="drink"><img src="img/tragos/margarita.svg"><strong>Margarita</strong></div>
+<div class="drink"><img src="img/tragos/blue-margarita.svg"><strong>Blue Margarita</strong></div>
+<div class="drink"><img src="img/tragos/pina-colada.svg"><strong>Piña Colada</strong></div>
+<div class="drink"><img src="img/tragos/daiquiri.svg"><strong>Daiquiri</strong></div>
+<div class="drink"><img src="img/tragos/mojito.svg"><strong>Mojito</strong></div>
+<div class="drink"><img src="img/tragos/caipirinha.svg"><strong>Caipirinha</strong></div>
+<div class="drink"><img src="img/tragos/laguna-azul.svg"><strong>Laguna Azul</strong></div>
+<div class="drink"><img src="img/tragos/chilcano.svg"><strong>Chilcano</strong></div>
+<div class="drink"><img src="img/tragos/mojito-frutos-rojos.svg"><strong>Mojito de frutos rojos</strong></div>
+<div class="drink"><img src="img/tragos/chilcano-maracuya.svg"><strong>Chilcano de maracuyá</strong></div>
+<div class="drink"><img src="img/tragos/pisco-sour.svg"><strong>Pisco Sour</strong></div></div></div></dialog>
 
-        <div class="titular">Titular: <span>CORPORACIÓN VÁSQUEZ</span></div>
+<dialog id="plinModal"><div class="head"><h3>Pagar con Plin</h3><button class="close" onclick="plinModal.close()">×</button></div><div class="body">
+<p>Se copiará el número <b>942 180 159</b> antes de intentar abrir BBVA.</p>
+<button class="action bbva" onclick="openBBVA()">Abrir aplicación BBVA</button>
+<button class="action copy" onclick="copyText('942180159','Número Plin copiado')">Copiar número Plin</button>
+</div></dialog>
 
-        <section class="pagos">
-          <button class="pago yape" onclick="abrirYape()">
-            <img src="yape.png" alt="Yape">
-            <span>
-              <small>PAGAR CON</small>
-              <strong>YAPE</strong>
-              <span class="numero">956 589 548</span>
-            </span>
-            <span class="arrow">›</span>
-          </button>
-
-          <button class="pago plin" onclick="abrirModalPlin()">
-            <img src="plin.png" alt="Plin">
-            <span>
-              <small>PAGAR CON</small>
-              <strong>PLIN</strong>
-              <span class="numero">942 180 159</span>
-            </span>
-            <span class="arrow">›</span>
-          </button>
-        </section>
-
-        <section class="acciones">
-          <button class="accion" onclick="elegirNumero()">
-            <span class="icon">📋</span>
-            COPIAR NÚMERO
-            <small>Copia el número de tu elección</small>
-          </button>
-
-          <a class="accion" href="https://wa.me/51942180159?text=Hola%20El%20Barril%20del%20Diablo%2C%20adjunto%20mi%20comprobante%20de%20pago." target="_blank" rel="noopener">
-            <img src="whatsapp.png" alt="WhatsApp">
-            ENVIAR COMPROBANTE
-            <small>Por WhatsApp</small>
-          </a>
-
-          <a class="accion" href="tel:+51942180159">
-            <span class="icon">☎️</span>
-            CONTACTAR
-            <small>Habla con el negocio</small>
-          </a>
-        </section>
-
-        <section class="contactos">
-          <h2>CONTACTOS</h2>
-          <div class="linea-contactos">
-            <span>942 180 159 <b class="plin-txt">(PLIN)</b></span>
-            <span>|</span>
-            <span>956 589 548 <b class="yape-txt">(YAPE)</b></span>
-          </div>
-        </section>
-
-        <div class="alerta">
-          Antes de confirmar el pago, verifica que aparezca el nombre
-          <strong>CORPORACIÓN VÁSQUEZ</strong>
-        </div>
-
-        <div class="cierre">¡Gracias por preferirnos!</div>
-      </div>
-    </section>
-  </main>
-
-  <dialog id="modalPlin">
-    <div class="modal">
-      <img src="plin.png" alt="Plin">
-      <h3>Pagar con Plin</h3>
-      <p>El número <b>942 180 159</b> se copiará antes de intentar abrir BBVA.</p>
-      <button class="bbva" onclick="abrirBBVA()">Abrir aplicación BBVA</button>
-      <button class="copiar" onclick="copiar('942180159','Número Plin copiado')">Copiar número Plin</button>
-      <button class="cerrar" onclick="cerrarModal()">Cerrar</button>
-    </div>
-  </dialog>
-
-  <div id="toast"></div>
-
-  <script>
-    const toast = (mensaje) => {
-      const t = document.getElementById('toast');
-      t.textContent = mensaje;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2300);
-    };
-
-    async function copiar(texto, mensaje){
-      try{
-        await navigator.clipboard.writeText(texto);
-      }catch(e){
-        const area = document.createElement('textarea');
-        area.value = texto;
-        document.body.appendChild(area);
-        area.select();
-        document.execCommand('copy');
-        area.remove();
-      }
-      toast(mensaje);
-    }
-
-    function abrirYape(){
-      copiar('956589548','Número Yape copiado');
-      setTimeout(() => location.href='yape://', 350);
-    }
-
-    function abrirModalPlin(){
-      document.getElementById('modalPlin').showModal();
-    }
-
-    function cerrarModal(){
-      document.getElementById('modalPlin').close();
-    }
-
-    function abrirBBVA(){
-      copiar('942180159','Número Plin copiado. Intentando abrir BBVA...');
-      /*
-        BBVA no garantiza públicamente un enlace universal estable para abrir
-        directamente la app. Se intenta el esquema habitual y, si no funciona,
-        el número queda copiado para que el cliente abra BBVA manualmente.
-      */
-      setTimeout(() => location.href='bbva://', 400);
-    }
-
-    function elegirNumero(){
-      const op = prompt('Escribe 1 para Yape o 2 para Plin');
-      if(op === '1') copiar('956589548','Número Yape copiado');
-      else if(op === '2') copiar('942180159','Número Plin copiado');
-      else if(op !== null) toast('Opción no válida');
-    }
-  </script>
-</body>
-</html>
+<div id="toast"></div>
+<script>
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2300)}
+async function copyText(x,m){try{await navigator.clipboard.writeText(x)}catch(e){const a=document.createElement('textarea');a.value=x;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}toast(m)}
+function openYape(){copyText('956589548','Número Yape copiado');setTimeout(()=>location.href='yape://',350)}
+function openBBVA(){copyText('942180159','Número Plin copiado. Intentando abrir BBVA...');setTimeout(()=>location.href='bbva://',400)}
+</script>
+</body></html>
