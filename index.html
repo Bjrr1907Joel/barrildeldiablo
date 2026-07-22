@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <title>Pagos | El Barril del Diablo</title>
+  <style>
+    :root{
+      --bg:#080808;
+      --panel:#151515;
+      --red:#e00014;
+      --gold:#f3b52b;
+      --white:#ffffff;
+      --muted:#b8b8b8;
+      --purple:#6f168f;
+      --cyan:#04aeb7;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(224,0,20,.16), transparent 30%),
+        linear-gradient(180deg,#050505,#111);
+      color:var(--white);
+      min-height:100vh;
+    }
+    .wrap{
+      width:min(100%,520px);
+      margin:auto;
+      padding:18px 14px 34px;
+    }
+    .card{
+      border:1px solid rgba(224,0,20,.75);
+      border-radius:24px;
+      overflow:hidden;
+      background:rgba(5,5,5,.96);
+      box-shadow:0 20px 70px rgba(0,0,0,.55);
+    }
+    .hero{
+      padding:16px 16px 10px;
+      text-align:center;
+      border-bottom:1px solid rgba(224,0,20,.45);
+    }
+    .logo{
+      width:100%;
+      max-height:235px;
+      object-fit:contain;
+      border-radius:16px;
+      background:#050505;
+    }
+    .thanks{
+      margin:12px -16px 0;
+      padding:12px;
+      font-weight:800;
+      letter-spacing:.5px;
+      background:linear-gradient(90deg,#65000a,#c50015,#65000a);
+    }
+    .content{padding:18px}
+    h1{
+      margin:0 0 14px;
+      font-size:28px;
+      text-align:center;
+      letter-spacing:1px;
+    }
+    .qrbox{
+      background:#fff;
+      border:4px solid var(--red);
+      border-radius:20px;
+      padding:10px;
+      width:min(100%,330px);
+      margin:0 auto;
+      box-shadow:0 0 28px rgba(224,0,20,.28);
+    }
+    .qrbox img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:8px;
+    }
+    .owner{
+      text-align:center;
+      margin:12px 0 18px;
+      font-size:17px;
+    }
+    .owner strong{color:var(--gold)}
+    .paygrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    button,a.action{
+      border:0;
+      border-radius:16px;
+      padding:15px 12px;
+      color:#fff;
+      font-weight:800;
+      font-size:16px;
+      cursor:pointer;
+      text-decoration:none;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      min-height:92px;
+      transition:transform .15s ease, filter .15s ease;
+    }
+    button:active,a.action:active{transform:scale(.98)}
+    .yape{background:linear-gradient(135deg,#421058,#8620a8)}
+    .plin{background:linear-gradient(135deg,#087f86,#08bdc7)}
+    .num{
+      display:block;
+      margin-top:6px;
+      color:#ffd85e;
+      font-size:18px;
+    }
+    .actions{
+      margin-top:12px;
+      display:grid;
+      gap:10px;
+    }
+    .secondary{
+      background:#222;
+      border:1px solid #3a3a3a;
+      min-height:58px;
+      flex-direction:row;
+      gap:10px;
+    }
+    .whatsapp{background:#128c45}
+    .notice{
+      margin-top:14px;
+      border:1px solid rgba(243,181,43,.8);
+      border-radius:15px;
+      padding:13px;
+      text-align:center;
+      background:rgba(243,181,43,.08);
+      color:#f5f5f5;
+      line-height:1.35;
+    }
+    .notice strong{color:var(--gold)}
+    .foot{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:16px;
+      line-height:1.45;
+    }
+    #toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%) translateY(20px);
+      background:#fff;
+      color:#111;
+      padding:12px 16px;
+      border-radius:12px;
+      font-weight:700;
+      opacity:0;
+      pointer-events:none;
+      transition:.25s;
+      z-index:999;
+      width:max-content;
+      max-width:90vw;
+      text-align:center;
+    }
+    #toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+    @media(max-width:390px){
+      .paygrid{grid-template-columns:1fr}
+      h1{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <header class="hero">
+        <img class="logo" src="logo.png" alt="Logo El Barril del Diablo" />
+        <div class="thanks">GRACIAS POR TU COMPRA</div>
+      </header>
+
+      <div class="content">
+        <h1>REALIZA TU PAGO</h1>
+
+        <div class="qrbox">
+          <img src="qr_pago.jpeg" alt="QR de pago de Corporación Vásquez" />
+        </div>
+
+        <div class="owner">
+          Titular: <strong>CORPORACIÓN VÁSQUEZ</strong>
+        </div>
+
+        <div class="paygrid">
+          <button class="yape" onclick="openWallet('yape','956589548')">
+            PAGAR CON YAPE
+            <span class="num">956 589 548</span>
+          </button>
+
+          <button class="plin" onclick="openWallet('plin','942180159')">
+            PAGAR CON PLIN
+            <span class="num">942 180 159</span>
+          </button>
+        </div>
+
+        <div class="actions">
+          <button class="secondary" onclick="chooseCopy()">📋 Copiar número de pago</button>
+
+          <a class="action secondary whatsapp"
+             href="https://wa.me/51942180159?text=Hola%20El%20Barril%20del%20Diablo%2C%20adjunto%20mi%20comprobante%20de%20pago."
+             target="_blank" rel="noopener">
+             💬 Enviar comprobante por WhatsApp
+          </a>
+
+          <a class="action secondary" href="tel:+51942180159">
+            📞 Contactar al negocio
+          </a>
+        </div>
+
+        <div class="notice">
+          Antes de confirmar el pago, verifica que aparezca el nombre
+          <strong>CORPORACIÓN VÁSQUEZ</strong>.
+        </div>
+
+        <div class="foot">
+          El botón copia el número y luego intenta abrir la billetera instalada.
+          La apertura directa puede variar según el modelo del celular y la versión de la aplicación.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast"></div>
+
+  <script>
+    const numbers = {
+      yape: "956589548",
+      plin: "942180159"
+    };
+
+    function toast(message){
+      const el = document.getElementById("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 2400);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        return true;
+      }catch(e){
+        const area = document.createElement("textarea");
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+        return true;
+      }
+    }
+
+    async function openWallet(wallet, number){
+      await copyText(number);
+      toast("Número copiado. Intentando abrir " + wallet.toUpperCase() + "…");
+
+      const scheme = wallet === "yape" ? "yape://" : "plin://";
+      setTimeout(() => {
+        window.location.href = scheme;
+      }, 350);
+
+      setTimeout(() => {
+        toast("Número copiado: " + number + ". Ábrelo manualmente si la app no se abrió.");
+      }, 1800);
+    }
+
+    function chooseCopy(){
+      const option = prompt(
+        "Escribe 1 para copiar Yape (956 589 548) o 2 para copiar Plin (942 180 159):"
+      );
+
+      if(option === "1"){
+        copyText(numbers.yape);
+        toast("Número Yape copiado: 956 589 548");
+      }else if(option === "2"){
+        copyText(numbers.plin);
+        toast("Número Plin copiado: 942 180 159");
+      }else if(option !== null){
+        toast("Opción no válida");
+      }
+    }
+  </script>
+</body>
+</html>
